@@ -1,0 +1,11 @@
+# exclude from git
+*.ipynb_checkpoints
+*/snapshots/*
+*/logs/*
+__pycache__/
+checkpoints/
+lightning_logs/
+*.nc
+*.raw
+data/*/R*
+*.h5
