@@ -210,8 +210,11 @@ The image above shows the mean error per time bin (y-axis) and its standard devi
 
 ## Cite
 
-When referencing the data or the models provided, please cite [this
-paper]().
+When referencing the data or the models provided, please cite this
+paper: 
+
+*The manuscript is not ready yet. As soon as it is done, we will update this section and advertised it in the
+[ News & Announcements forum](https://www.iarai.ac.at/weather4cast/forums/forum/news-announcements/), please subscribe!*
 
 ```
 @InProceedings{tbd}
