@@ -40,10 +40,11 @@ def get_prod_name(product):
         product = 'ASII-TF'
     return product
 
+
 def get_params(region_id='R1', 
-               data_path=f'{os.getcwd()}/../data',
-               splits_path=f'{os.getcwd()}/../utils',
-               static_data_path=f'{os.getcwd()}/../data/static',
+               data_path=os.path.join(os.getcwd(), '../data'),
+               splits_path=os.path.join(os.getcwd()),
+               static_data_path=os.path.join(os.getcwd(), '../data/static'),
                size=256,
                collapse_time=False):
     """ Set paths & parameters to load/transform/save data and models.
@@ -87,15 +88,16 @@ def get_params(region_id='R1',
     else:
         track = 'w4c-transfer-learning-stage-1'
 
-    data_params['data_path'] = f'{data_path}/{track}/{region_id}'
+    data_params['data_path'] = os.path.join(data_path, track, region_id)
     
     data_params['static_paths'] = {}
-    data_params['static_paths']['l'] = f'{static_data_path}/Navigation_of_S_NWC_CT_MSG4_Europe-VISIR_20201106T120000Z.nc'
-    data_params['static_paths']['e'] = f'{static_data_path}/S_NWC_TOPO_MSG4_+000.0_Europe-VISIR.raw'
+    data_params['static_paths']['l'] = os.path.join(static_data_path, 'Navigation_of_S_NWC_CT_MSG4_Europe-VISIR_20201106T120000Z.nc')
+    data_params['static_paths']['e'] = os.path.join(static_data_path, 'S_NWC_TOPO_MSG4_+000.0_Europe-VISIR.raw')
 
-    data_params['train_splits'] = f'{splits_path}/splits.csv'
-    data_params['test_splits'] = f'{splits_path}/test_split.json'
-    data_params['black_list_path'] = f'{splits_path}/blacklist.json'   
+    data_params['train_splits'] = os.path.join(splits_path, 'splits.csv')
+    data_params['test_splits'] = os.path.join(splits_path, 'test_split.json')
+    data_params['black_list_path'] = os.path.join(splits_path, 'blacklist.json')
+    
 
     # ------------
     # 2. Data params    
