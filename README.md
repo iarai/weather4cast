@@ -23,15 +23,15 @@
 
 ## Introduction
 
-The aim of our core competition is to predict the next 32 images (8h ahead in 15 minutes intervals) in our weather movies, which encode four different variables: (i) Temperature from the [Cloud Top Temperature](https://www.nwcsaf.org/ctth2) or the ground [Skin Temperature](https://www.nwcsaf.org/ishai_description) if there are no clouds, (ii) [Convective Rainfall Rate](https://www.nwcsaf.org/crr3), (iii) [Probability of Occurrence of Tropopause Folding](https://www.nwcsaf.org/asii-tf), and (iv) [Cloud Mask](https://www.nwcsaf.org/cma3). Each image is an observation of these 4 channels in a 15 minutes period where pixels correspond to a spatial area of ~3km x 3km, and there are 6 regions of 256 x 256 pixels to provide test predictions. From these regions, 3 of them contain also training and validation data for learning purposes but the other 3 only inference is requested, to assess the Transfer Learning capabilities of models.
+The aim of our core competition is to predict the next 32 images (8h ahead in 15 minutes intervals) in our weather movies, which encode four different variables: (i) Temperature from the [Cloud Top Temperature](https://www.nwcsaf.org/ctth2) or the ground [Skin Temperature](https://www.nwcsaf.org/ishai_description) if there are no clouds, (ii) [Convective Rainfall Rate](https://www.nwcsaf.org/crr3), (iii) [Probability of Occurrence of Tropopause Folding](https://www.nwcsaf.org/asii-tf), and (iv) [Cloud Mask](https://www.nwcsaf.org/cma3). Each image is an observation of these 4 channels in a 15 minutes period where pixels correspond to a spatial area of ~3km x 3km, and there are 11 regions of 256 x 256 pixels to provide test predictions. From these regions, 5 of them contain also training and validation data for learning purposes but the other 6 only inference is requested, to assess the Transfer Learning capabilities of models.
 
-![Regions](/images/stage1_regions.png?raw=true "Train/Validation/test Regions")
+![Regions](/images/IEEE_BigData_regions.png?raw=true "Train/Validation/test Regions")
 
 The submission format in each day of the test set is a multi-dimensional array (tensor) of shape (32, 4, 256, 256) and the objective function of all submitted tensors (one for each day in the test set and region) is the **mean squared error** of all pixel channel values to pixel channel values derived from true observations. We note that we normalize these pixel channel values to lie between 0 and 1 by dividing the pixel channel value by the maximum value of each variable (see below).
 
 There are **two competitions** running in parallel that expect independent submission (participants can join one or both of them):
-- [Core Competition](https://www.iarai.ac.at/weather4cast/competitions/weather4cast-2021/): Train your models on these regions with the provided data and submit predictions on the test subset.
-- [Transfer Learning Competition](https://www.iarai.ac.at/weather4cast/competitions/w4c21-transfer/): Only the test subset is provided for these regions, test the generalization capacity of your models.
+- [Core Competition](https://www.iarai.ac.at/weather4cast/competitions/ieee-big-data-core/): Train your models on these regions with the provided data and submit predictions on the test subset.
+- [Transfer Learning Competition](https://www.iarai.ac.at/weather4cast/competitions/ieee-big-data-transfer-learning/): Only the test subset is provided for these regions, test the generalization capacity of your models.
 
 ## Get the data
 You can download the data once registered in the competition.
@@ -82,7 +82,7 @@ python3 utils/h5file.py -i path_to_RegionY/test/yyyyddd.h5
 To generate the compressed folder, `cd` to the parent folder containing the regions folders (RegionX, ..., RegionY) and zip all regions together like in the following example:
 ```
 user@comp:~/tmp_files/core-competition-predictions$ ls
-R1/ R2/ R3/
+R1/ R2/ R3/ R7/ R8/
 user@comp:~/tmp_files/core-competition$ zip -r ../core-predictions.zip .
 ...
 user@comp:~/tmp_files/core-competition$ ls ../
@@ -101,8 +101,8 @@ user@comp:~/tmp_files/core-competition-predictions$ find . -wholename *DS* -prin
 ```
 
 The submission file can be uploaded in the corresponding following submission link:
-- [Core Competition](https://www.iarai.ac.at/weather4cast/competitions/weather4cast-2021/?submissions)
-- [Transfer Learning Competition](https://www.iarai.ac.at/weather4cast/competitions/w4c21-transfer/?submissions)
+- [Core Competition](https://www.iarai.ac.at/weather4cast/competitions/ieee-big-data-core/?submissions)
+- [Transfer Learning Competition](https://www.iarai.ac.at/weather4cast/competitions/ieee-big-data-transfer-learning/?submissions)
 
 ## Data summary
 
@@ -129,19 +129,24 @@ We provide an introduction notebook in `utils/1. Onboarding.ipynb` where we cove
 4. Data Loader Example
 5. Generate a valid submission for the Persistence model
 
-Furthermore, you can find all explained methods in the notebook ready to use in the files `utils/data_utils.py` and `utils/context_variables.py`, so you can import them out of the box.
+Furthermore, you can find all explained methods in the notebook ready to be used in the files `utils/data_utils.py` and `utils/context_variables.py`, so you can import them out of the box.
 
 The code assumes that if you download the regions for the core or transfer learning competition, they are located like follows:
 ```
 +-- data
-    +-- w4c-core-stage-1 
+    +-- core-w4c
         +-- R1
         +-- R2
         +-- R3
-    +-- w4c-transfer-learning-stage-1
+        +-- R7
+        +-- R8
+    +-- transfer-learning-w4c
         +-- R4
         +-- R5
         +-- R6
+        +-- R9
+        +-- R10
+        +-- R11
     +-- static
         +-- Navigation_of_S_NWC_CT_MSG4_Europe-VISIR_20201106T120000Z.nc
         +-- S_NWC_TOPO_MSG4_+000.0_Europe-VISIR.raw
@@ -157,9 +162,9 @@ Just in the same way, if you consider using the provided [static context variabl
 
 We provide a notebook (`2. Submission_UNet.ipynb`) where we show how to create a submission using pre-trained [UNet](https://arxiv.org/pdf/1505.04597.pdf) models, in particular, we will produce 3 sets of predictions:
 
-* A valid submission for the core-competition (R1-3) using pre-trained UNets per region i.e. individual models per region
-* A valid submission for the transfer-learning-competition (R4-6) using a single UNet trained on region R1
-* Use the ensamble of models trained in regions R1-3 to generate a valid submission for the transfer-learning-competition (R4-6) by averaging their predictions
+* A valid submission for the core-competition (R1, R2, R3, R7, R8) using pre-trained UNets per region i.e. individual models per region
+* A valid submission for the transfer-learning-competition (R4, R5, R6, R9, R10, R11) using a single UNet trained on region R1
+* Use the ensamble of models trained in regions R1-3 to generate a valid submission for the transfer-learning-competition (R4, R5, R6, R9, R10, R11) by averaging their predictions
 
 The weights needed to generate such submission for the UNets can be downloaded once registered to the competition [here](https://www.iarai.ac.at/weather4cast/forums/forum/competition/). The notebook uses an architecture and a [PyTorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/) class defined in `weather4cast/benchmarks/`, but it is not required to understand them when learning how to generate the submissions from a pre-trained model.
 

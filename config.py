@@ -40,7 +40,6 @@ def get_prod_name(product):
         product = 'ASII-TF'
     return product
 
-
 def get_params(region_id='R1', 
                data_path=os.path.join(os.getcwd(), '../data'),
                splits_path=os.path.join(os.getcwd()),
@@ -77,16 +76,21 @@ def get_params(region_id='R1',
                'R1': {'up_left': (1850, 760), 'split': 'train', 'desc': 'Nile Region', 'size': size}, 
                'R5': {'up_left': (1300, 550), 'split': 'test', 'desc': 'South\nMediterranean', 'size': size}, 
                'R4': {'up_left': (1020, 670), 'split': 'test', 'desc': 'Central\nMaghreb', 'size': size},
-                  }
+               'R7': {'up_left': (1700, 470), 'split': 'train', 'desc': 'Bosphorus', 'size': size}, 
+               'R8': {'up_left': (750, 670), 'split': 'train', 'desc': 'East\nMaghreb', 'size': size}, 
+               'R9': {'up_left': (450, 760), 'split': 'test', 'desc': 'Canarian Islands', 'size': size}, 
+               'R10': {'up_left': (250, 500), 'split': 'test', 'desc': 'Azores Islands', 'size': size}, 
+               'R11': {'up_left': (1000, 130), 'split': 'test', 'desc': 'North West\nEurope','size': size}
+               } 
     print(f'Using data for region {region_id} | size: {size} | {regions[region_id]["desc"]}')
 
     # ------------
     # 1. Files to load
     # ------------
-    if region_id in ['R1', 'R2', 'R3']:
-        track = 'w4c-core-stage-1'
+    if region_id in ['R1', 'R2', 'R3', 'R7', 'R8']:
+        track = 'core-w4c'
     else:
-        track = 'w4c-transfer-learning-stage-1'
+        track = 'transfer-learning-w4c'
 
     data_params['data_path'] = os.path.join(data_path, track, region_id)
     
