@@ -9,3 +9,4 @@ lightning_logs/
 *.raw
 data/*/R*
 *.h5
+*.zip

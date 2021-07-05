@@ -17,6 +17,12 @@ from torch.utils.data import Dataset
 import data_utils
 from context_variables import get_static
 
+def sum_1_year(date):
+    """ sum 1 year to `date`
+    """
+    year_1 = int(date/1000)+1
+    date = str(year_1) + str(date)[-3:]
+    return int(date)
 class NWCSAF(Dataset):
     
     def __init__(self, data_split, products, target_vars,
@@ -28,7 +34,8 @@ class NWCSAF(Dataset):
                  data_path='',
                  train_splits='splits.csv', 
                  test_splits='test_split.json', 
-                 black_list_path='blacklist.json', **kwargs):
+                 black_list_path='blacklist.json', 
+                 heldout_data = False, **kwargs):
         
         self.channel_dim = 1 # specifies the dimension to concat multiple channels/variables
 
@@ -46,6 +53,7 @@ class NWCSAF(Dataset):
         self.region_id = region_id
         self.preprocess = preprocess
         self.crop_in, self.crop_out = crop_in, crop_out
+        self.heldout_data = heldout_data
         
         # load extra variables if any 
         self.extra_data, self.static_tensor, self.static_desc = [], [], []
@@ -135,6 +143,8 @@ class NWCSAF(Dataset):
     def __getitem__(self, idx):
         """ load 1 sequence (1 sample) """
         day_id, in_start_id, lead_time = self.idxs[idx]
+        if self.heldout_data:
+            day_id = sum_1_year(day_id)
         return self.load_in_out(day_id, in_start_id, lead_time)
     
     def get_date(self, id_day):
