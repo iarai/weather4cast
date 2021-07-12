@@ -19,6 +19,7 @@
   - [Benchmarks](#benchmarks)
     - [Generate a submission](#generate-a-submission)
     - [Train/evaluate a UNet](#trainevaluate-a-unet)
+  - [Code and abstract submission](#code-and-abstract-submission)
   - [Cite](#cite)
 
 ## Introduction
@@ -212,6 +213,32 @@ The class `LeadTimeEval` in `benchmarks/validation_metrics.py` is used by the `U
 
 ![Lead Times](/images/lead_times_mse_fig_R1.png "Lead Times")
 The image above shows the mean error per time bin (y-axis) and its standard deviation up to 8 hours (32 time bins ahead, x-axis). The further the prediction the worst the error. The title of the picture indicates that this model used latitude/longitude and elevations (l-e), and indicates the mean error per variable averaging all 32 lead times.
+
+## Code and abstract submission
+At the end of the competition you must provide:
+1. A short scientific paper with a sufficiently detailed description of your approach (4-6 pages plus references)
+2. The code and models (with their learned weights) that you used for your predictions, with explanations to reproduce it.
+  
+We will provide you with links to upload 1 and 2. For the code, you will need to upload a zip folder containing all inlcuding weights. Ideally, your zip folder will contain:
+- a) A list of **dependencies**. In the case of using Python, we suggest using conda/pip to generate them: `conda env export > environment.yml`. Make sure that your code can be executed from a fresh environment using the provided list of requirements: `conda env create -f environment.yml`.
+- b) **Code**, **models**, and a **folder with all model's weights**.
+- c) An **out-of-the-box script** to use your best model **to generate predictions**. The script will read the inputs for the model from a given path and region, using its test folder (like the one used for the leaderboard), and save the outputs on a given path. The path to the folder containing the weights to be loaded by the models can also be an argument of the script. We provide an example in `utils/4-inference.py`.
+
+An example of using c) will be: 
+```
+cd utils
+R=R5
+INPUT_PATH=../data
+WEIGHTS=../weights
+OUT_PATH=.
+python 4-inference.py -d $INPUT_PATH -r $R -w $WEIGHTS -o $OUT_PATH -g 1
+```
+
+Since region `R5` belongs to the transfer learning challenge, the code will generate predictions for each day in folder `$INPUT_PATH/transfer-learning-w4c/$R/test/` and will save the `.h5` predictions in folder `$OUT_PATH/$R/test/`, just like it is done for the leaderboard submissions. The script is responsible to use the appropriate models given the target region `$R` and the location of the weights `$WEIGHTS`. 
+
+The only difference with the test folders used for the leaderboard is that this script should compute the prediction for any date and sequence of 4 time intervals. This means that the splits `utils/splits.csv` and `utils/test_split.json` can't be used anymore but need to be generated for the days found in `$INPUT_PATH/transfer-learning-w4c/$R/test/` (this allows using your models for any date and hour on that day as input). The code to generate these files is already provided in the example script `utils/4-inference.py`.
+
+
 
 ## Cite
 

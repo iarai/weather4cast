@@ -10,3 +10,4 @@ lightning_logs/
 data/*/R*
 *.h5
 *.zip
+*/inference/*
