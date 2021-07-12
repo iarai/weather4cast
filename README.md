@@ -219,10 +219,10 @@ At the end of the competition you must provide:
 1. A short scientific paper with a sufficiently detailed description of your approach (4-6 pages plus references)
 2. The code and models (with their learned weights) that you used for your predictions, with explanations to reproduce it.
   
-We will provide you with links to upload 1 and 2. For the code, you will need to upload a zip folder containing all inlcuding weights. Ideally, your zip folder will contain:
+We will notify participants of how to provide the paper. For the code, you will need to submit it to a public repository like GitHub, providing a link to download the model's learned weights. Ideally, your repository should at least contain:
 - a) A list of **dependencies**. In the case of using Python, we suggest using conda/pip to generate them: `conda env export > environment.yml`. Make sure that your code can be executed from a fresh environment using the provided list of requirements: `conda env create -f environment.yml`.
 - b) **Code**, **models**, and a **folder with all model's weights**.
-- c) An **out-of-the-box script** to use your best model **to generate predictions**. The script will read the inputs for the model from a given path and region, using its test folder (like the one used for the leaderboard), and save the outputs on a given path. The path to the folder containing the weights to be loaded by the models can also be an argument of the script. We provide an example in `utils/4-inference.py`.
+- c) An **out-of-the-box script** to use your best model **to generate predictions**. The script will read the inputs for the model from a given path and region, using its test folder (like the one used for the leaderboard), and save the outputs on a given path. The path to the folder containing the weights to be loaded by the models can also be an argument of the script. We provide an example in `utils/4-inference.py` with Python.
 
 An example of using c) will be: 
 ```
