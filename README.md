@@ -242,12 +242,31 @@ The only difference with the test folders used for the leaderboard is that this 
 
 ## Cite
 
-When referencing the data or the models provided, please cite this
-paper: 
+When referencing the data or the models provided, please cite these papers: 
 
-*The manuscript is not ready yet. As soon as it is done, we will update this section and advertised it in the
-[ News & Announcements forum](https://www.iarai.ac.at/weather4cast/forums/forum/news-announcements/), please subscribe!*
 
 ```
-@InProceedings{tbd}
+@INPROCEEDINGS{9672063,  
+author={Herruzo, Pedro and Gruca, Aleksandra and Lliso, Llorenç and Calbet, Xavier and Rípodas, Pilar and Hochreiter, Sepp and Kopp, Michael and Kreil, David P.},  
+booktitle={2021 IEEE International Conference on Big Data (Big Data)},   
+title={High-resolution multi-channel weather forecasting – First insights on transfer learning from the Weather4cast Competitions 2021},   
+year={2021},  
+volume={},  
+number={},  
+pages={5750-5757},  
+doi={10.1109/BigData52589.2021.9672063}
+}
+
+@inbook{10.1145/3459637.3482044,
+author = {Gruca, Aleksandra and Herruzo, Pedro and R\'{\i}podas, Pilar and Kucik, Andrzej and Briese, Christian and Kopp, Michael K. and Hochreiter, Sepp and Ghamisi, Pedram and Kreil, David P.},
+title = {CDCEO'21 - First Workshop on Complex Data Challenges in Earth Observation},
+year = {2021},
+isbn = {9781450384469},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3459637.3482044},
+booktitle = {Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management},
+pages = {4878–4879},
+numpages = {2}
+}
 ```
